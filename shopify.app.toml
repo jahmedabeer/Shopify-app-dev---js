@@ -2,7 +2,7 @@
 
 client_id = "5a6a77eb6488f1e7dcb8bb9540334d14"
 name = "first-app-dev-js"
-application_url = "https://example.com"
+application_url = "https://shopify-app-dev-tk4m.onrender.com"
 embedded = true
 
 [build]
@@ -24,4 +24,4 @@ api_version = "2026-01"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://shopify-app-dev-tk4m.onrender.com/api/auth" ]
