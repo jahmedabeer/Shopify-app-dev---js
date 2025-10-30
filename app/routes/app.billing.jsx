@@ -5,7 +5,7 @@ import { updateSubscriptionMetafield } from "../utils/subscription-metafield.ser
 
 export const loader = async (args) => {
     const { request } = args;
-    const { billing, admin } = await authenticate.admin(request);
+    const { billing, session, admin } = await authenticate.admin(request);
     const appHandle = "first-app-dev-js";
 
     // Check if merchant has an active subscription
@@ -15,8 +15,12 @@ export const loader = async (args) => {
     // This makes the status available to theme extensions via Liquid
     await updateSubscriptionMetafield(admin, hasActivePayment);
 
+    // Extract store handle from shop domain
+    const shop = session.shop;
+    const storeHandle = shop.replace('.myshopify.com', '');
+
     // Build the plan selection URL
-    const planSelectionUrl = `https://admin.shopify.com/store/charges/${appHandle}/pricing_plans`;
+    const planSelectionUrl = `https://admin.shopify.com/store/${storeHandle}/charges/${appHandle}/pricing_plans`;
 
     return {
         hasActivePayment,
