@@ -1,14 +1,19 @@
 import { redirect, useLoaderData, useSubmit } from "react-router";
 import { authenticate } from "../shopify.server";
+import { updateSubscriptionMetafield } from "../utils/subscription-metafield.server";
 
 
 export const loader = async (args) => {
     const { request } = args;
-    const { billing, session } = await authenticate.admin(request);
+    const { billing, session, admin } = await authenticate.admin(request);
     const appHandle = "first-app-dev-js";
 
     // Check if merchant has an active subscription
     const { hasActivePayment, appSubscriptions } = await billing.check();
+
+    // Update app-data metafield with subscription status
+    // This makes the status available to theme extensions via Liquid
+    await updateSubscriptionMetafield(admin, hasActivePayment);
 
     // Extract store handle from shop domain
     const shop = session.shop;
@@ -26,7 +31,7 @@ export const loader = async (args) => {
 
 export const action = async (args) => {
     const { request } = args;
-    const { billing } = await authenticate.admin(request);
+    const { billing, admin } = await authenticate.admin(request);
     const { appSubscriptions } = await billing.check();
 
     await billing.cancel({
@@ -34,6 +39,9 @@ export const action = async (args) => {
         isTest: false, // Change to false in production
         prorate: true // Give merchant credit for unused time
     })
+
+    // Update metafield to reflect cancelled subscription
+    await updateSubscriptionMetafield(admin, false);
 
     return redirect("/app/billing");
 }

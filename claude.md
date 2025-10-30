@@ -1,5 +1,7 @@
 # Project Guidelines
 
+Always ask shopify mcp related shopify app development questions in the context of this project.
+
 ## Project Overview
 - **Type**: Shopify App (Development)
 - **Framework**: React Router v7 (Remix)
