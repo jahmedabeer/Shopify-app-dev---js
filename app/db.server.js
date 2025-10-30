@@ -1,11 +1,13 @@
+import { neonConfig } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
 
-if (process.env.NODE_ENV !== "production") {
-  if (!global.prismaGlobal) {
-    global.prismaGlobal = new PrismaClient();
-  }
-}
+neonConfig.fetchConnectionString = () => process.env.DATABASE_URL;
 
-const prisma = global.prismaGlobal ?? new PrismaClient();
+const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ 
+  adapter,
+  errorFormat: "pretty"
+});
 
 export default prisma;
