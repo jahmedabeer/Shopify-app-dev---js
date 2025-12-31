@@ -1,27 +1,20 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "5a6a77eb6488f1e7dcb8bb9540334d14"
-name = "first-app-dev-js"
-application_url = "https://shopify-app-dev-tk4m.onrender.com"
+client_id = "b360544a35eb8f8be2a01a2221c0a140"
+name = "App-dev-js"
+application_url = "https://example.com"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
+include_config_on_deploy = true
 
 [webhooks]
 api_version = "2026-01"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
-
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = ""
 
 [auth]
-redirect_urls = [ "https://shopify-app-dev-tk4m.onrender.com/api/auth" ]
+redirect_urls = [ "https://example.com/api/auth" ]
